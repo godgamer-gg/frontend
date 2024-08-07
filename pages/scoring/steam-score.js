@@ -1,11 +1,30 @@
+'use client'
+
 import Head from 'next/head';
-import styles from '/styles/Home.module.css';
-import Link from 'next/link';
 import Header from '../components/header';
 import Button from '@mui/material/Button';
+import Box from '@mui/material/Box';
 import Textfield from '@mui/material/TextField';
+import React, {Component, useState} from 'react';
 
-export default function GetStarted() {
+const handleFriendCodeChange 
+
+
+
+= event => {
+  setState({friendCode: event.target.value})
+  console.log(event.target.value)
+}
+
+const handleSteamCodeChange = event => {
+  setState({steamCode: event.target.value})
+  console.log(event.target.value)
+}
+
+
+export default function SteamScore() { 
+  const [steamCode, setSteamCode] = useState('0')
+  const [friendCode, setFriendCode] = useState('0')
   return (
     <div>
       <Head>
@@ -17,17 +36,18 @@ export default function GetStarted() {
       <main>
         <Button href='./score-home' variant='outlined'> Back </Button>
         <h1> Steam Score Calculator</h1>
-        <p>
+        <div>
             Enter your Steam ID Here:
-            <Textfield id='Steam ID' label='Steam ID' variant='outlined' />
-        </p>
-        <p>
+            <Textfield id='Steam ID' label='Steam ID' variant='outlined' onChange={(event) => setSteamCode(event.target.value)} />
+        </div>
+        <div>
             Your steam ID is not your friend code or your username. You can enter your friend code here instead:
-            <Textfield id='Freidncode' label='Steam Friendcode' variant='outlined' />
-        </p>
-        <Button variant='contained'
+            <Textfield id='Friendcode' label='Steam Friendcode' variant='outlined' onChange={() => setFriendCode(friendCode)}/>
+        </div>
+          <Button variant='contained'
             onClick={() => {
-                submit()
+              console.log("submit")
+                submit(steamCode, friendCode)
             }}
         >
             Submit
@@ -35,11 +55,27 @@ export default function GetStarted() {
       </main>
 
     </div>
+
   );
 }
 
-async function submit() {
-    const response = await fetch("http://localhost:8000");
-    const data = await response.json();
-    console.log(data)
+
+async function submit(steamCode, friendCode) {
+  console.log(steamCode, friendCode)
+  let url = "http://localhost:8000/steamscore/"
+  if (steamCode != '0') {
+    url = url + 'steamCode/' + steamCode
+  } else if (friendCode != '0') {
+    url = url + 'friendCode' + friendCode
+  } else {
+    return
+  }
+  const response = await fetch(url, {
+      method: "GET",
+      headers: {
+          "Content-Type": "application/json",
+      }
+  });
+  const resp_data = await response.json();
+  console.log(resp_data)
 }
