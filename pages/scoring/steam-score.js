@@ -7,21 +7,6 @@ import Box from '@mui/material/Box';
 import Textfield from '@mui/material/TextField';
 import React, {Component, useState} from 'react';
 
-const handleFriendCodeChange 
-
-
-
-= event => {
-  setState({friendCode: event.target.value})
-  console.log(event.target.value)
-}
-
-const handleSteamCodeChange = event => {
-  setState({steamCode: event.target.value})
-  console.log(event.target.value)
-}
-
-
 export default function SteamScore() { 
   const [steamCode, setSteamCode] = useState('0')
   const [friendCode, setFriendCode] = useState('0')
