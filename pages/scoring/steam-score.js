@@ -1,7 +1,7 @@
 'use client'
 
 import Head from 'next/head';
-import Header from '../components/header';
+import Header from '../components/Header';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import Textfield from '@mui/material/TextField';
@@ -55,12 +55,20 @@ async function submit(steamCode, friendCode) {
   } else {
     return
   }
-  const response = await fetch(url, {
-      method: "GET",
-      headers: {
-          "Content-Type": "application/json",
-      }
-  });
-  const resp_data = await response.json();
-  console.log(resp_data)
+  try{
+    const response = await fetch(url, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        }
+    });
+    if (response.ok) {
+      const resp_data = await response.json();
+      console.log(resp_data)
+    } else {
+      console.error("failed to get steam score", JSON.stringify(response, null, 2))
+    }
+  } catch (error) {
+    console.error("fatal error getting steam score: ", error)
+  }
 }

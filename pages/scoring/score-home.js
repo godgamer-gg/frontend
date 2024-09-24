@@ -1,10 +1,10 @@
 import Head from 'next/head';
 import styles from '/styles/Home.module.css';
 import Link from 'next/link';
-import Header from '../components/header';
+import Header from '../components/Header';
 import Button from '@mui/material/Button';
 
-export default function GetStarted() {
+export default function Calculators() {
   return (
     <div>
       <Head>

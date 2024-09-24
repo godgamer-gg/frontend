@@ -1,19 +1,38 @@
 import Head from 'next/head';
-import styles from '../styles/Home.module.css';
-import Link from 'next/link';
-import Header from './components/header';
+// import styles from '../styles/Home.module.css';
+// import Link from 'next/link';
+import Header from './components/Header';
 import React, { useState } from 'react'
+import { useRouter } from 'next/router';
 
-export default function login() {
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
+export default function Login() {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+
+  // error setters
   const [userError, setUserError] = useState('')
-  const [passwordError, setPasswordError] = useState('')
+  const [passwordError, setPasswordError] = useState('');
+  const [responseError, setResponseError] = useState('');
 
+  const router = useRouter(); // Initialize the router
+
+  // hook for submit failing
+  const handleResponseError = (error) => {
+    console.log("response error: ", error)
+    setResponseError(error)
+  }
+
+  // callback on login success
+  const handleLoginSuccess = () => {
+    router.push('/')
+  }
+
+  // submit button logic
   const onButtonClick = () => {
     // Set initial error values to empty
     setUserError('')
     setPasswordError('')
+    setResponseError('')
   
     // Check if the user has entered both fields correctly
     if ('' === username) {
@@ -21,7 +40,7 @@ export default function login() {
       return
     }
     
-    // case were an email is entered instead
+    // case where an email is entered instead
     if (/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(username)) {
       const user = findUser(username)
       if ('' === user) {
@@ -35,7 +54,7 @@ export default function login() {
       return
     }
     
-    verifyLogin(username, password)
+    verifyLogin(username, password, handleResponseError, handleLoginSuccess)
   }
 
   return (
@@ -71,6 +90,9 @@ export default function login() {
           <label className="errorLabel">{passwordError}</label>
         </div>
         <br />
+        <div>
+          {responseError && <p style={{color: 'red'}}>{responseError}</p>}
+        </div>
         <div className={'inputContainer'}>
           <input className={'inputButton'} type="button" onClick={onButtonClick} value={'Log in'} />
         </div>
@@ -98,24 +120,25 @@ async function findUser(email) {
   }
 }
 
-async function verifyLogin(username, password) {
-  console.log("logging in: ", username, password)
-  const credentials = btoa(`${username}:${password}`);
+async function verifyLogin(username, password, errorCallback, successCallback) {
+  console.log("logging in: ", username)
 
   try {
-    const response = await fetch("http://localhost:8000/auth", {
+    const response = await fetch("/api/login", {
       method: 'POST',
       headers: {
-        'Authorization': `Basic ${credentials}`,
         'Content-Type': 'application/json'
-      }
+      },
+      body: JSON.stringify({username, password})
     });
     if (response.ok) {
       const data = await response.json();
       console.log("logged in, server response: ", data);
-      return data;
+      successCallback()
     } else {
       console.error('failed to log in: ', JSON.stringify(response, null, 2));
+      const errorMsg = await response.json()
+      errorCallback(errorMsg.detail)
       return '';
     }
   } catch (error) {

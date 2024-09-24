@@ -2,8 +2,20 @@ import Head from 'next/head';
 import styles from '../styles/Home.module.css';
 import Link from 'next/link';
 import React from 'react'
+import ReactDOM from 'react-dom';
+import { BrowserRouter } from 'react-router-dom';
 import Button from '@mui/material/Button';
-import Header from './components/header';
+
+import App from './App';
+import Header from './components/Header';
+
+// currently not necessary cuz next.js
+// const root = ReactDOM.createRoot(document.getElementById("root"));
+// root.render(
+//   <React.StrictMode>
+//     <App />
+//   </React.StrictMode>
+// );
 
 export default function Home() {
   return (
@@ -16,9 +28,13 @@ export default function Home() {
       <Header />
 
       <main>
-        <h1 className={styles.title}>
+        {/* <h1 className={styles.title}>
+          Welcome! {sessionStorage.getItem('nickname')}
+        </h1> */}
+
+        <h2 className={styles.title}>
           The Ultimate Gamer Rank
-        </h1>
+        </h2>
         <Button href="/get-started" variant='contained'>
           <p className={styles.description}>
             Get started

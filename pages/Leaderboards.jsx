@@ -1,18 +1,18 @@
 import Head from 'next/head';
 import styles from '../styles/Home.module.css';
 import Link from 'next/link';
-import Header from './components/header';
+import Header from './components/Header';
 
-export default function GetStarted() {
+export default function Leaderboards() {
   return (
     <div>
       <Head>
-        <title>Create an Account</title>
+        <title>Leaderboards</title>
         <link rel="icon" href="/Controller.svg" />
       </Head>
       
       <Header />
-      <h1> TODO</h1>
+      <h1> Leaderboards will go here</h1>
     </div>
   );
 }

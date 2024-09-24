@@ -1,18 +1,20 @@
 import Head from 'next/head';
 import styles from '../styles/Home.module.css';
 import Link from 'next/link';
-import Header from './components/header';
+import Header from './components/Header';
 
-export default function GetStarted() {
+export default function About() {
   return (
     <div>
       <Head>
-        <title>Leaderboards</title>
+        <title>About The Ultimate Gamer Rank</title>
         <link rel="icon" href="/Controller.svg" />
       </Head>
-      
+
       <Header />
-      <h1> Leaderboards will go here</h1>
+    <main>
+      <h1> TODO</h1>
+    </main>
     </div>
   );
 }
