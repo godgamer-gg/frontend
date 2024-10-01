@@ -1,11 +1,11 @@
 import Head from 'next/head';
-import styles from '../styles/Home.module.css';
+import styles from '/styles/Home.module.css';
 import Link from 'next/link';
-import Header from './components/Header';
+import Header from '../components/Header';
 import Button from '@mui/material/Button';
 import { useEffect, useState } from 'react';
 
-export default function GetStarted() {
+export default function Calculators() {
     const [user, setUser] = useState('');
 
     useEffect(() => {
@@ -26,23 +26,15 @@ export default function GetStarted() {
     return (
         <div>
             <Head>
-                <title>Getting Started</title>
+                <title>Calculate your score</title>
                 <link rel="icon" href="/Controller.svg" />
             </Head>
 
-            <Header />
-            <h1> Let's Get Started!</h1>
+            <Header user={user} />
+            <h1> Score calculators</h1>
 
-            <Button href="/login" variant="contained">
-                Login
-            </Button>
-
-            <Button href="/account-creation" variant="contained">
-                Create Account
-            </Button>
-
-            <Button href="/scoring/score-home" variant="contained">
-                Continue as guest
+            <Button href="./steam-score" variant="contained">
+                Steam
             </Button>
         </div>
     );

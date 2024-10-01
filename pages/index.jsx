@@ -54,7 +54,7 @@ export default function Home() {
             <main>
                 <Greeting user={user} />
                 <h2 className={styles.title}>The Ultimate Gamer Rank</h2>
-                <Button href="/GetStarted" variant="contained">
+                <Button href="/get-started" variant="contained">
                     <p className={styles.description}>Get started</p>
                 </Button>
             </main>
