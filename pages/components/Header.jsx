@@ -1,17 +1,17 @@
 // Filename - Header.js
- 
-import * as React from "react";
- 
+
+import * as React from 'react';
+
 // importing material UI components
-import AppBar from "@mui/material/AppBar";
-import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
-import IconButton from "@mui/material/IconButton";
-import MenuIcon from "@mui/icons-material/Menu";
+import AppBar from '@mui/material/AppBar';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
+import IconButton from '@mui/material/IconButton';
+import MenuIcon from '@mui/icons-material/Menu';
 import cookie from 'cookie';
- 
-export default function Header() {
+
+export default function Header(props) {
     return (
         <AppBar position="static">
             <Toolbar>
@@ -29,27 +29,45 @@ export default function Header() {
                 </IconButton>
                 {/* The Typography component applies 
                      default font weights and sizes */}
-                <Button color="inherit" href='/'>Home</Button>
-                <Button color="inherit" href='/About'>About</Button>
-                <Button color='inherit' href='/Leaderboards'>Leaderboards</Button>
-                <Button color='inherit' href='/Contact'>Contact</Button>
+                <Button color="inherit" href="/">
+                    Home
+                </Button>
+                <Button color="inherit" href="/About">
+                    About
+                </Button>
+                <Button color="inherit" href="/Leaderboards">
+                    Leaderboards
+                </Button>
+                <Button color="inherit" href="/Contact">
+                    Contact
+                </Button>
                 <Typography
                     variant="h6"
                     component="div"
                     sx={{ flexGrow: 1 }}
-                >
-                </Typography>
-                {1 == 1 ? (
+                ></Typography>
+                {props.user === '' ? (
                     <div>
-                        <Button href='/CreateAccount' color='inherit'>Create Account</Button>
-                        <Button href='/Login' color="inherit">Login</Button>
+                        <Button href="/CreateAccount" color="inherit">
+                            Create Account
+                        </Button>
+                        <Button href="/Login" color="inherit">
+                            Login
+                        </Button>
                     </div>
                 ) : (
                     <div>
-                        <Button href='/Profile' color='inherit'>Profile</Button>
+                        <Button href="/Profile" color="inherit">
+                            Profile
+                        </Button>
+                        <Button color="inherit">Logout</Button>
                     </div>
                 )}
             </Toolbar>
         </AppBar>
     );
 }
+
+Header.defaultProps = {
+    user: '',
+};

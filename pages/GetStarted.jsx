@@ -1,0 +1,49 @@
+import Head from 'next/head';
+import styles from '../styles/Home.module.css';
+import Link from 'next/link';
+import Header from './components/Header';
+import Button from '@mui/material/Button';
+import { useEffect, useState } from 'react';
+
+export default function GetStarted() {
+    const [user, setUser] = useState('');
+
+    useEffect(() => {
+        const fetchSession = async () => {
+            const response = await fetch('/api/session');
+            if (response.ok) {
+                const data = await response.json();
+                setUser(data.user);
+            } else {
+                console.log('User is not logged in');
+                setUser('');
+            }
+        };
+
+        fetchSession();
+    }, []);
+
+    return (
+        <div>
+            <Head>
+                <title>Getting Started</title>
+                <link rel="icon" href="/Controller.svg" />
+            </Head>
+
+            <Header />
+            <h1> Let's Get Started!</h1>
+
+            <Button href="/login" variant="contained">
+                Login
+            </Button>
+
+            <Button href="/account-creation" variant="contained">
+                Create Account
+            </Button>
+
+            <Button href="/scoring/score-home" variant="contained">
+                Continue as guest
+            </Button>
+        </div>
+    );
+}

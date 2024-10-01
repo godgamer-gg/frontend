@@ -54,6 +54,7 @@ export default function Login() {
       return
     }
     
+    console.log("print here")
     verifyLogin(username, password, handleResponseError, handleLoginSuccess)
   }
 
@@ -131,14 +132,14 @@ async function verifyLogin(username, password, errorCallback, successCallback) {
       },
       body: JSON.stringify({username, password})
     });
+
+    const data = await response.json();
     if (response.ok) {
-      const data = await response.json();
       console.log("logged in, server response: ", data);
       successCallback()
     } else {
-      console.error('failed to log in: ', JSON.stringify(response, null, 2));
-      const errorMsg = await response.json()
-      errorCallback(errorMsg.detail)
+      console.log("failed to log in: ", data)
+      errorCallback(data.message)
       return '';
     }
   } catch (error) {

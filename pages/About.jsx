@@ -4,17 +4,17 @@ import Link from 'next/link';
 import Header from './components/Header';
 
 export default function About() {
-  return (
-    <div>
-      <Head>
-        <title>About The Ultimate Gamer Rank</title>
-        <link rel="icon" href="/Controller.svg" />
-      </Head>
+	return (
+		<div>
+			<Head>
+				<title>About The Ultimate Gamer Rank</title>
+				<link rel='icon' href='/Controller.svg' />
+			</Head>
 
-      <Header />
-    <main>
-      <h1> TODO</h1>
-    </main>
-    </div>
-  );
+			<Header />
+			<main>
+				<h1> TODO</h1>
+			</main>
+		</div>
+	);
 }
