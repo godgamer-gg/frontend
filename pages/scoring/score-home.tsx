@@ -36,6 +36,9 @@ export default function Calculators() {
             <Button href="./steam-score" variant="contained">
                 Steam
             </Button>
+            <Button href="./riot-score" variant="contained">
+                Riot
+            </Button>
         </div>
     );
 }

@@ -9,9 +9,21 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
-import cookie from 'cookie';
+import { useRouter } from 'next/router';
 
 export default function Header(props) {
+    const router = useRouter(); // Initialize the router
+
+    const logout = async () => {
+        const response = await fetch('/api/logout', { method: 'POST' });
+        if (response.ok) {
+            console.log('Logged out successfully');
+
+            // send the user home which will reset the logged in state as well
+            router.push('/');
+        }
+    };
+
     return (
         <AppBar position="static">
             <Toolbar>
@@ -32,13 +44,13 @@ export default function Header(props) {
                 <Button color="inherit" href="/">
                     Home
                 </Button>
-                <Button color="inherit" href="/About">
+                <Button color="inherit" href="/about">
                     About
                 </Button>
-                <Button color="inherit" href="/Leaderboards">
+                <Button color="inherit" href="/leaderboards">
                     Leaderboards
                 </Button>
-                <Button color="inherit" href="/Contact">
+                <Button color="inherit" href="/contact">
                     Contact
                 </Button>
                 <Typography
@@ -51,16 +63,18 @@ export default function Header(props) {
                         <Button href="/CreateAccount" color="inherit">
                             Create Account
                         </Button>
-                        <Button href="/Login" color="inherit">
+                        <Button href="/login" color="inherit">
                             Login
                         </Button>
                     </div>
                 ) : (
                     <div>
-                        <Button href="/Profile" color="inherit">
+                        <Button href="/profile" color="inherit">
                             Profile
                         </Button>
-                        <Button color="inherit">Logout</Button>
+                        <Button color="inherit" onClick={logout}>
+                            Logout
+                        </Button>
                     </div>
                 )}
             </Toolbar>
