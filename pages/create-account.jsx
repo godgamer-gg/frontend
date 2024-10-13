@@ -3,6 +3,7 @@ import styles from '../styles/Home.module.css';
 import Link from 'next/link';
 import Header from './components/Header';
 import React, { useState } from 'react';
+import { useRouter } from 'next/router';
 
 export default function CreateAccount() {
     const [username, setUsername] = useState('');
@@ -14,6 +15,8 @@ export default function CreateAccount() {
     const [confirmPasswordError, setConfirmPasswordError] = useState('');
     const [emailError, setEmailError] = useState('');
     const [responseError, setResponseError] = useState('');
+
+    const router = useRouter();
 
     const onButtonClick = () => {
         // Set initial error values to empty
@@ -48,12 +51,23 @@ export default function CreateAccount() {
             return;
         }
         console.log(username, email, password);
-        createAccount(username, email, password, handleResponseError);
+        createAccount(
+            username,
+            email,
+            password,
+            handleResponseError,
+            successCallback,
+        );
     };
 
     const handleResponseError = (error) => {
         console.log('response error: ', error);
         setResponseError(error);
+    };
+
+    // on successful account creation, login the user then route them to profile-setup
+    const successCallback = () => {
+        router.push('/profile-setup');
     };
 
     return (
@@ -94,6 +108,7 @@ export default function CreateAccount() {
                 <div className={'inputContainer'}>
                     password: &nbsp;
                     <input
+                        type="password"
                         value={password}
                         placeholder="Enter your password here"
                         onChange={(ev) => setPassword(ev.target.value)}
@@ -105,6 +120,7 @@ export default function CreateAccount() {
                 <div className={'inputContainer'}>
                     confirm password: &nbsp;
                     <input
+                        type="password"
                         value={confirmPassword}
                         placeholder="confirm your password"
                         onChange={(ev) => setConfirmPassword(ev.target.value)}
@@ -132,10 +148,16 @@ export default function CreateAccount() {
     );
 }
 
-async function createAccount(username, email, password, errorCallback) {
+async function createAccount(
+    username,
+    email,
+    password,
+    errorCallback,
+    successCallback,
+) {
     console.log('creating account: ', username, email, password);
     try {
-        const response = await fetch('http://localhost:8000/register', {
+        const response = await fetch('/api/register', {
             method: 'POST',
             body: JSON.stringify({
                 username,
@@ -146,17 +168,17 @@ async function createAccount(username, email, password, errorCallback) {
                 'Content-type': 'application/json; charset=UTF-8',
             },
         });
+        const data = await response.json();
         if (response.ok) {
-            const data = await response.json();
             console.log('account created, server response: ', data);
-            return data;
+            successCallback();
         } else {
-            const errorMsg = await response.json();
-            errorCallback(errorMsg.detail);
-            return '';
+            console.log(data.message);
+            errorCallback(data.message);
         }
     } catch (error) {
         console.error('Error during account creation: ', error);
+        errorCallback(error);
         return '';
     }
 }

@@ -21,7 +21,7 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx"
-  ],
+, "pages/components/Footer.jsx", "pages/contact.jsx"  ],
   "exclude": [
     "node_modules"
   ]

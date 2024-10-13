@@ -60,7 +60,7 @@ export default function Header(props) {
                 ></Typography>
                 {props.user === '' ? (
                     <div>
-                        <Button href="/CreateAccount" color="inherit">
+                        <Button href="/create-account" color="inherit">
                             Create Account
                         </Button>
                         <Button href="/login" color="inherit">

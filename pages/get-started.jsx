@@ -4,16 +4,21 @@ import Link from 'next/link';
 import Header from './components/Header';
 import Button from '@mui/material/Button';
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
 
 export default function GetStarted() {
+    const router = useRouter();
     const [user, setUser] = useState('');
 
     useEffect(() => {
         const fetchSession = async () => {
             const response = await fetch('/api/session');
             if (response.ok) {
-                const data = await response.json();
-                setUser(data.user);
+                // const data = await response.json();
+                // setUser(data.user);
+
+                // just redirect the user on if they are already logged in
+                router.push('/scoring/score-home');
             } else {
                 console.log('User is not logged in');
                 setUser('');
