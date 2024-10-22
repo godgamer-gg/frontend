@@ -9,21 +9,9 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
-import { useRouter } from 'next/router';
+import AccountMenu from './AccountMenu';
 
 export default function Header(props) {
-    const router = useRouter(); // Initialize the router
-
-    const logout = async () => {
-        const response = await fetch('/api/logout', { method: 'POST' });
-        if (response.ok) {
-            console.log('Logged out successfully');
-
-            // send the user home which will reset the logged in state as well
-            router.push('/');
-        }
-    };
-
     return (
         <AppBar position="static">
             <Toolbar>
@@ -69,12 +57,7 @@ export default function Header(props) {
                     </div>
                 ) : (
                     <div>
-                        <Button href="/profile" color="inherit">
-                            Profile
-                        </Button>
-                        <Button color="inherit" onClick={logout}>
-                            Logout
-                        </Button>
+                        <AccountMenu user={props.user} />
                     </div>
                 )}
             </Toolbar>
