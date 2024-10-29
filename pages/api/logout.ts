@@ -2,6 +2,7 @@
 
 import { NextApiRequest, NextApiResponse } from 'next';
 import cookie from 'cookie';
+import { useRouter } from 'next/router';
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
     // Clear the authToken cookie

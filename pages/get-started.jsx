@@ -45,7 +45,7 @@ export default function GetStarted() {
                         Login
                     </Button>
 
-                    <Button href="/account-creation" variant="contained">
+                    <Button href="/create-account" variant="contained">
                         Create Account
                     </Button>
 

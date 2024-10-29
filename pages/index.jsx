@@ -53,10 +53,21 @@ export default function Home() {
 
             <main>
                 <Greeting user={user} />
-                <h2 className={styles.title}>The Ultimate Gamer Rank</h2>
-                <Button href="/get-started" variant="contained">
-                    <p className={styles.description}>Get started</p>
-                </Button>
+                {user === '' ? (
+                    <div>
+                        <Button href="/get-started" variant="contained">
+                            <p className={styles.description}>Get started</p>
+                        </Button>
+                    </div>
+                ) : (
+                    <div>
+                        <Button href="/scoring/score-home" variant="contained">
+                            <p className={styles.description}>
+                                Calculate my Score
+                            </p>
+                        </Button>
+                    </div>
+                )}
             </main>
 
             <Footer />

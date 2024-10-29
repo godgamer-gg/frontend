@@ -8,8 +8,6 @@ export default async function handler(
     res: NextApiResponse,
 ) {
     try {
-        const { username, email, password } = req.body;
-
         const response = await fetch('http://localhost:8000/register', {
             method: req.method,
             headers: {
@@ -40,9 +38,11 @@ export default async function handler(
             }),
         );
 
-        res.status(200).json({ message: 'account created successfully' });
+        return res
+            .status(200)
+            .json({ message: 'account created successfully' });
     } catch (error) {
         console.error('Error creating account', error);
-        res.status(500).json({ message: 'Internal Server Error' });
+        return res.status(500).json({ message: 'Internal Server Error' });
     }
 }

@@ -65,9 +65,9 @@ export default function CreateAccount() {
         setResponseError(error);
     };
 
-    // on successful account creation, login the user then route them to profile-setup
+    // on successful account creation, login the user then route them to update-profile
     const successCallback = () => {
-        router.push('/profile-setup');
+        router.push('/update-profile');
     };
 
     return (

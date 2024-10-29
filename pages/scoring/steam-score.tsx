@@ -87,9 +87,10 @@ async function submit(steamCode, friendCode, callback) {
     console.log(steamCode, friendCode);
     let url = 'http://localhost:8000/steamscore/';
     if (steamCode != '0') {
-        url = url + 'steamCode/' + steamCode;
-    } else if (friendCode != '0') {
-        url = url + 'friendCode' + friendCode;
+        url = url + 'guest/' + steamCode;
+        // currently friendcode isn't being used - needs backend fixes to work
+        // } else if (friendCode != '0') {
+        //     url = url + 'friendCode' + friendCode;
     } else {
         return;
     }
