@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import { useRouter } from 'next/router';
+import Head from 'next/head';
 
 export default function UpdateProfile() {
     // const [formData, setFormData] = useState({
@@ -29,7 +30,7 @@ export default function UpdateProfile() {
                 const userInfo = data.user;
                 setUsername(userInfo.username);
                 setEmail(userInfo.email);
-                setSteamID(userInfo.steamID);
+                setSteamID(userInfo.steam);
                 setDiscord(userInfo.discord);
                 setBio(userInfo.bio);
 
@@ -93,6 +94,10 @@ export default function UpdateProfile() {
     // TODO: add spacing to make the form pretty
     return (
         <div>
+            <Head>
+                <title>Create an Account</title>
+                <link rel="icon" href="/Controller.svg" />
+            </Head>
             <Header user={username} />
 
             <h2> Edit your profile </h2>
@@ -121,7 +126,7 @@ export default function UpdateProfile() {
                     <input
                         type="text"
                         name="steam"
-                        defaultValue={steamID}
+                        value={steamID}
                         onChange={(e) => setSteamID(e.target.value)}
                     />
                 </label>
