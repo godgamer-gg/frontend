@@ -3,25 +3,71 @@ import styles from '/styles/Home.module.css';
 import Link from 'next/link';
 import Header from '../components/Header';
 import Button from '@mui/material/Button';
+import { TextField } from '@mui/material';
 import { useEffect, useState } from 'react';
+import SteamScore from './steam-score';
+import RiotScore from './riot-score';
+import { useRouter } from 'next/router';
 
 export default function Calculators() {
     const [user, setUser] = useState('');
+    const [totalScore, setTotalScore] = useState('0');
+    const [steamCode, setSteamCode] = useState('');
+    const [email, setEmail] = useState('');
+    const [error, setError] = useState('');
+    const [status, setStatus] = useState('');
+    const [scoresDict, setScoresDict] = useState('');
+
+    const router = useRouter();
 
     useEffect(() => {
         const fetchSession = async () => {
-            const response = await fetch('/api/session');
+            const response = await fetch('/api/current-user');
             if (response.ok) {
                 const data = await response.json();
-                setUser(data.user);
+                const userInfo = data.user;
+                setUser(userInfo.username);
+                setEmail(userInfo.email);
+                setSteamCode(userInfo.steam);
             } else {
                 console.log('User is not logged in');
-                setUser('');
+                router.push('/');
             }
         };
 
         fetchSession();
     }, []);
+
+    const submit = async () => {
+        setStatus('Calculating...This can take a few minutes');
+        setError('');
+        try {
+            const response = await fetch('/api/calculate-all', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+            const data = await response.json();
+            if (response.ok) {
+                console.log('scores received: ', data);
+                setScoresDict(data.user);
+                setStatus('Finished Calculating');
+            } else {
+                console.error(
+                    'failed to get scores',
+                    JSON.stringify(response, null, 2),
+                    JSON.stringify(data, null, 2),
+                );
+                setError(data.message);
+                setStatus('');
+            }
+        } catch (error) {
+            console.error('fatal error getting steam score: ', error);
+            setError('server side error');
+            setStatus('');
+        }
+    };
 
     return (
         <div>
@@ -29,16 +75,58 @@ export default function Calculators() {
                 <title>Calculate your score</title>
                 <link rel="icon" href="/Controller.svg" />
             </Head>
-
             <Header user={user} />
-            <h1> Score calculators</h1>
+            <h1> User Score Calculation </h1>
+            <h2> Review your info: </h2>
+            <div
+                style={{
+                    border: '1px solid #ddd',
+                    padding: '16px',
+                    borderRadius: '4px',
+                    backgroundColor: '#f9f9f9',
+                }}
+            >
+                <p>
+                    <strong>Name:</strong> {user}
+                </p>
+                <p>
+                    <strong>Email:</strong> {email}
+                </p>
+                <p>
+                    <strong>Steam Code:</strong> {steamCode}
+                </p>
+                <Button variant="contained" href="/update-profile">
+                    edit
+                </Button>
+            </div>
 
-            <Button href="./steam-score" variant="contained">
-                Steam
+            <br></br>
+            <Button
+                variant="contained"
+                onClick={() => {
+                    console.log('submit');
+                    submit();
+                }}
+            >
+                Calculate
             </Button>
-            <Button href="./riot-score" variant="contained">
-                Riot
-            </Button>
+            {error && <p style={{ color: 'red' }}>{error}</p>}
+            {status && <p style={{ color: 'green' }}>{status}</p>}
+            {/* <SteamScore />
+            <RiotScore /> */}
+            <h2>Score Breakdown: </h2>
+            {/* TODO: sum scores from above components to get total score */}
+            <div>
+                {Object.entries(scoresDict).map(([key, value]) => (
+                    <TextField
+                        id={key}
+                        label={key}
+                        value={value || 0}
+                        margin="normal"
+                        variant="filled"
+                    />
+                ))}
+            </div>
         </div>
     );
 }

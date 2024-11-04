@@ -4,14 +4,8 @@ import Header from '../components/Header';
 export default function RiotScore() {
     return (
         <div>
-            <Head>
-                <title>Leaderboards</title>
-                <link rel="icon" href="/Controller.svg" />
-            </Head>
-
-            <Header />
-
-            <h1> NOT YET IMPLEMENTED</h1>
+            <h1> RIOT SCORE </h1>
+            <h3> NOT YET IMPLEMENTED YET</h3>
         </div>
     );
 }

@@ -86,9 +86,11 @@ export default function AccountMenu({ user = '' }) {
                         <Avatar /> Profile
                     </MenuItem>
                 </Link>
-                <MenuItem onClick={handleClose}>
-                    <Avatar /> Scores
-                </MenuItem>
+                <Link href="/scoring/score-home" passHref legacyBehavior>
+                    <MenuItem>
+                        <Avatar /> Scores
+                    </MenuItem>
+                </Link>
                 <Divider />
                 <MenuItem onClick={logout}>
                     <ListItemIcon>

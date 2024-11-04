@@ -55,8 +55,13 @@ export default function Home() {
                 <Greeting user={user} />
                 {user === '' ? (
                     <div>
-                        <Button href="/get-started" variant="contained">
-                            <p className={styles.description}>Get started</p>
+                        <Button
+                            href="/scoring/guest-score-home"
+                            variant="contained"
+                        >
+                            <p className={styles.description}>
+                                Continue as Guest
+                            </p>
                         </Button>
                     </div>
                 ) : (
