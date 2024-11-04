@@ -11,7 +11,6 @@ import { useRouter } from 'next/router';
 
 export default function Calculators() {
     const [user, setUser] = useState('');
-    const [totalScore, setTotalScore] = useState('0');
     const [steamCode, setSteamCode] = useState('');
     const [email, setEmail] = useState('');
     const [error, setError] = useState('');
@@ -32,6 +31,14 @@ export default function Calculators() {
             } else {
                 console.log('User is not logged in');
                 router.push('/');
+            }
+            // these two api calls could be combined but this is easier for now
+            const scoresResp = await fetch('/api/get-user-scores');
+            if (scoresResp.ok) {
+                const data = await scoresResp.json();
+                setScoresDict(data.user);
+            } else {
+                console.log('failed to fetch scores for user');
             }
         };
 
@@ -63,7 +70,7 @@ export default function Calculators() {
                 setStatus('');
             }
         } catch (error) {
-            console.error('fatal error getting steam score: ', error);
+            console.error('fatal error calculating scores: ', error);
             setError('server side error');
             setStatus('');
         }
