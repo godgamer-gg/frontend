@@ -15,7 +15,7 @@ export default function Calculators() {
     const [email, setEmail] = useState('');
     const [error, setError] = useState('');
     const [status, setStatus] = useState('');
-    const [scoresDict, setScoresDict] = useState('');
+    const [scoresDict, setScoresDict] = useState(['', '', '']);
 
     const router = useRouter();
 
@@ -124,14 +124,30 @@ export default function Calculators() {
             <h2>Score Breakdown: </h2>
             {/* TODO: sum scores from above components to get total score */}
             <div>
-                {Object.entries(scoresDict).map(([key, value]) => (
-                    <TextField
-                        id={key}
-                        label={key}
-                        value={value || 0}
-                        margin="normal"
-                        variant="filled"
-                    />
+                {Object.entries(scoresDict).map(([key, values]) => (
+                    <div>
+                        <TextField
+                            id={key}
+                            label={key}
+                            value={values[0] || 0}
+                            margin="normal"
+                            variant="filled"
+                        />
+                        <TextField
+                            id={'percentile'}
+                            label={'percentile'}
+                            value={values[1] || 0}
+                            margin="normal"
+                            variant="filled"
+                        />
+                        <TextField
+                            id={'Grade'}
+                            label={'Grade'}
+                            value={values[2] || 0}
+                            margin="normal"
+                            variant="filled"
+                        />
+                    </div>
                 ))}
             </div>
         </div>

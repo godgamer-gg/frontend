@@ -17,10 +17,13 @@ export default async function handler(
         }
 
         // token found, verify token from fastapi
-        const response = await fetch('http://localhost:8000/scoring/all/user', {
-            method: 'get',
-            headers: { Authorization: `Bearer ${token}` },
-        });
+        const response = await fetch(
+            'http://localhost:8000/scoring/all/user/update',
+            {
+                method: 'get',
+                headers: { Authorization: `Bearer ${token}` },
+            },
+        );
 
         if (!response.ok) {
             console.error('failed to fetch scores: ');

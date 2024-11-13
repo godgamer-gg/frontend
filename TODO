@@ -1,8 +1,13 @@
-Save scores to json database
-Add show password to login and create account
-Steam id failure cases to UI and backend
+Major:
 Flesh out leaderboards tab
 Challenge Tab: Daily/Weekly challenges people can complete
+
+Medium:
+Add show password to login and create account
+Add update password
+Steam id failure cases to UI and backend
+
+Minor:
 Contact Tab
 About Tab
 Make things look pretty (I've done literally none of this)
