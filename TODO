@@ -1,13 +1,23 @@
-Major:
-Flesh out leaderboards tab
-Challenge Tab: Daily/Weekly challenges people can complete
+## Major:
 
-Medium:
-Add show password to login and create account
-Add update password
-Steam id failure cases to UI and backend
+-   Flesh out leaderboards tab (WIP)
+-   Tournament tab
+-   Make leaderboard look less shitty
+-   Make things look pretty (I've done literally none of this)
+-   Link leaderboard entries into a profile page for the user
 
-Minor:
-Contact Tab
-About Tab
-Make things look pretty (I've done literally none of this)
+## Medium:
+
+-   Add show password to login and create account
+-   Add update password
+-   Steam id failure cases to UI and backend
+-   Change server and manager so all calls from runServer are manager functions
+-   Hashing passwords for security
+-   Challenge Tab: Daily/Weekly challenges people can complete
+-   Convert more files to Typrescript
+
+## Minor:
+
+-   Contact Tab
+-   About Tab
+-   Redirect home after updating profile

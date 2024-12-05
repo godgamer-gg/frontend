@@ -2,32 +2,26 @@
 // effectively used to verify session with more info returned
 
 import { NextApiRequest, NextApiResponse } from 'next';
-import cookie from 'cookie';
 
 export default async function handler(
     req: NextApiRequest,
     res: NextApiResponse,
+    category: string,
 ) {
-    const cookies = cookie.parse(req.headers.cookie || '');
-    const token = cookies.authToken;
-
-    // no token found, not logged in
-    if (!token) {
-        return res.status(401).json({ message: 'Not authenticated' });
-    }
-
     try {
-        // token found, verify token from fastapi
+        console.log('req body:', req.body);
         const response = await fetch(
-            'http://localhost:8000/auth/current-user',
+            'http://localhost:8000/leaderboard-data' + category,
             {
-                method: 'Post',
-                headers: { Authorization: `Bearer ${token}` },
+                method: req.method,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
             },
         );
 
         if (!response.ok) {
-            console.error('failed to fetch account details: ');
+            console.error('failed to fetch leaderboard info: ');
             const errorMsg = await response.json();
             console.error(JSON.stringify(errorMsg, null, 2));
             return res.status(401).json({ message: errorMsg.detail });
@@ -36,7 +30,7 @@ export default async function handler(
         const userData = await response.json();
         res.status(200).json({ user: userData });
     } catch (error) {
-        console.error('Error fetching account detailst', error);
+        console.error('Error fetching leaderboard info', error);
         return res.status(500).json({ message: 'Internal Server Error' });
     }
 }
