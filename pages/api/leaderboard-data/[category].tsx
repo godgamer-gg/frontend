@@ -9,9 +9,8 @@ export default async function handler(
     category: string,
 ) {
     try {
-        console.log('req body:', req.body);
         const response = await fetch(
-            'http://localhost:8000/leaderboard-data' + category,
+            'http://localhost:8000/leaderboard-data/' + category,
             {
                 method: req.method,
                 headers: {

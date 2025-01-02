@@ -1,4 +1,5 @@
 import React from 'react';
+import Link from 'next/link';
 
 const Leaderboard = ({ cat, data }) => {
     return (
@@ -19,11 +20,19 @@ const Leaderboard = ({ cat, data }) => {
                     </tr>
                 </thead>
                 <tbody>
-                    {data.map(([username, score], index) => (
+                    {data.map(([score, username], index) => (
                         <tr key={index}>
                             <td>{index + 1}</td>
+                            <td>
+                                {
+                                    <div>
+                                        <Link href={'/profiles/' + username}>
+                                            {username}
+                                        </Link>
+                                    </div>
+                                }
+                            </td>
                             <td>{score}</td>
-                            <td>{username}</td>
                         </tr>
                     ))}
                 </tbody>

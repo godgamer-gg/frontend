@@ -1,5 +1,5 @@
 import Head from 'next/head';
-import Header from './components/Header';
+import Header from '../components/Header';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import Button from '@mui/material/Button';
