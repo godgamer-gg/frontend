@@ -1,5 +1,5 @@
 import Head from 'next/head';
-import styles from '../styles/Home.module.css';
+import styles from '../styles/Page.module.css';
 import Link from 'next/link';
 import { GetServerSideProps } from 'next';
 import Header from './components/Header';
@@ -12,6 +12,7 @@ export default function Leaderboards() {
     const [category, setCategory] = useState('Total');
     const [allCategories, setAllCategories] = useState(['']);
     const [LBData, setLBData] = useState([['']]);
+    const [error, setError] = useState('');
 
     useEffect(() => {
         const fetchSession = async () => {
@@ -32,13 +33,21 @@ export default function Leaderboards() {
     // perhaps this should be a GET instead but would need to rework slightly
     const fetchData = async (category) => {
         // Fetch data from external API
-        const res = await fetch(
-            'http://localhost:8000/leaderboard-data/' + category,
-        );
-        const data = await res.json();
-        console.log(data);
-        setAllCategories(data.categories);
-        setLBData(data.data);
+        try {
+            const res = await fetch(
+                'http://localhost:8000/leaderboard-data/' + category,
+            );
+            const data = await res.json();
+            console.log(data);
+            setAllCategories(data.categories);
+            setLBData(data.data);
+        } catch (error) {
+            console.log(`error fetching leaderboard data ${error}`);
+            setError(
+                'server-side failure loading data, please wait for maintenance',
+            );
+            // maybe display some sort of server error message?
+        }
     };
 
     return (
@@ -49,29 +58,41 @@ export default function Leaderboards() {
             </Head>
 
             <Header user={user} />
-            <br></br>
-            <br></br>
+            <main className={styles.main}>
+                <h1 className={styles.title}>Leaderboards</h1>
 
-            {/* need to center this somehow, also style buttons */}
-            <div>
-                {allCategories.map((item, index) => (
-                    <Button
-                        key={index}
-                        name={item}
-                        variant="contained"
-                        onClick={() => {
-                            setCategory(item);
-                            fetchData(item);
-                        }}
-                    >
-                        {item}
-                    </Button>
-                ))}
-            </div>
+                <section className={styles.section}>
+                    <div className={styles.buttonContainer}>
+                        {allCategories.map((item, index) => (
+                            <Button
+                                key={index}
+                                name={item}
+                                variant="contained"
+                                onClick={() => {
+                                    setCategory(item);
+                                    fetchData(item);
+                                }}
+                                sx={{
+                                    margin: '0.5rem',
+                                    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                                    '&:hover': {
+                                        backgroundColor:
+                                            'rgba(255, 255, 255, 0.2)',
+                                    },
+                                }}
+                            >
+                                {item}
+                            </Button>
+                        ))}
+                        <span className={styles.text}>More coming soon</span>
+                    </div>
+                    {error && <p className={styles.error}>{error}</p>}
 
-            <div>
-                <Leaderboard cat={category} data={LBData} />
-            </div>
+                    <div className={styles.leaderboardContainer}>
+                        <Leaderboard cat={category} data={LBData} />
+                    </div>
+                </section>
+            </main>
         </div>
     );
 }

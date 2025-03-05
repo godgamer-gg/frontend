@@ -1,5 +1,5 @@
 import Head from 'next/head';
-import styles from '../styles/Home.module.css';
+import styles from '../styles/Page.module.css';
 import Link from 'next/link';
 import Header from './components/Header';
 import Footer from './components/Footer';
@@ -22,17 +22,65 @@ export default function Contact() {
 
         fetchSession();
     }, []);
+
     return (
         <div>
             <Head>
-                <title>Contact</title>
+                <title>Contact Us</title>
                 <link rel="icon" href="/Controller.svg" />
             </Head>
 
             <Header user={user} />
-            <h1> Contact info will go here</h1>
+            <main className={styles.main}>
+                <h1 className={styles.title}>Contact Us</h1>
 
-            {/* <Footer /> */}
+                <section className={styles.section}>
+                    <form className={styles.form}>
+                        <div className={styles.formGroup}>
+                            <label htmlFor="name" className={styles.text}>
+                                Name:
+                            </label>
+                            <input
+                                type="text"
+                                id="name"
+                                name="name"
+                                className={styles.input}
+                                required
+                            />
+                        </div>
+
+                        <div className={styles.formGroup}>
+                            <label htmlFor="email" className={styles.text}>
+                                Email:
+                            </label>
+                            <input
+                                type="email"
+                                id="email"
+                                name="email"
+                                className={styles.input}
+                                required
+                            />
+                        </div>
+
+                        <div className={styles.formGroup}>
+                            <label htmlFor="message" className={styles.text}>
+                                Message:
+                            </label>
+                            <textarea
+                                id="message"
+                                name="message"
+                                className={styles.input}
+                                rows={5}
+                                required
+                            />
+                        </div>
+
+                        <button type="submit" className={styles.button}>
+                            Send Message
+                        </button>
+                    </form>
+                </section>
+            </main>
         </div>
     );
 }

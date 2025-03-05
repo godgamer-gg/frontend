@@ -37,12 +37,29 @@ export default function AccountMenu({ user = '' }) {
             <IconButton
                 onClick={handleClick}
                 size="small"
-                sx={{ ml: 2 }}
+                sx={{
+                    ml: 2,
+                    transition: 'all 0.3s ease',
+                    '&:hover': {
+                        transform: 'scale(1.1)',
+                    },
+                }}
                 aria-controls={open ? 'account-menu' : undefined}
                 aria-haspopup="true"
                 aria-expanded={open ? 'true' : undefined}
             >
-                <Avatar sx={{ width: 32, height: 32 }}>{firstLetter}</Avatar>
+                <Avatar
+                    sx={{
+                        width: 32,
+                        height: 32,
+                        bgcolor: 'rgba(255, 255, 255, 0.2)',
+                        color: '#ffffff',
+                        border: '2px solid rgba(255, 255, 255, 0.3)',
+                        fontWeight: 'bold',
+                    }}
+                >
+                    {firstLetter}
+                </Avatar>
             </IconButton>
             <Menu
                 anchorEl={anchorEl}
@@ -55,13 +72,29 @@ export default function AccountMenu({ user = '' }) {
                         elevation: 0,
                         sx: {
                             overflow: 'visible',
-                            filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
+                            filter: 'drop-shadow(0px 2px 8px rgba(255, 255, 255, 0.2))',
                             mt: 1.5,
+                            backgroundColor: 'rgba(18, 18, 18, 0.95)',
+                            backdropFilter: 'blur(10px)',
+                            border: '1px solid rgba(255, 255, 255, 0.2)',
+                            color: '#ffffff',
                             '& .MuiAvatar-root': {
                                 width: 32,
                                 height: 32,
                                 ml: -0.5,
                                 mr: 1,
+                                bgcolor: 'rgba(255, 255, 255, 0.1)',
+                                color: '#ffffff',
+                                border: '1px solid rgba(255, 255, 255, 0.3)',
+                            },
+                            '& .MuiMenuItem-root': {
+                                transition: 'all 0.3s ease',
+                                '&:hover': {
+                                    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                                },
+                            },
+                            '& .MuiListItemIcon-root': {
+                                color: '#ffffff',
                             },
                             '&::before': {
                                 content: '""',
@@ -71,9 +104,12 @@ export default function AccountMenu({ user = '' }) {
                                 right: 14,
                                 width: 10,
                                 height: 10,
-                                bgcolor: 'background.paper',
+                                bgcolor: 'rgba(18, 18, 18, 0.95)',
                                 transform: 'translateY(-50%) rotate(45deg)',
                                 zIndex: 0,
+                                border: '1px solid rgba(255, 255, 255, 0.2)',
+                                borderBottom: 'none',
+                                borderRight: 'none',
                             },
                         },
                     },

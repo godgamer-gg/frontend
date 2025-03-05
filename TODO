@@ -1,7 +1,6 @@
 ## Major:
 
 -   Read persons profile page
--   Get to profile page from leaderboard
 -   Tournament tab
 -   Make leaderboard look less shitty
 -   Make things look pretty (I've done literally none of this)
@@ -9,6 +8,7 @@
 
 ## Medium:
 
+-   Create preferences if people want to show email, discord, and others
 -   Add show password to login and create account
 -   Add update password
 -   Steam id failure cases to UI and backend

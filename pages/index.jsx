@@ -10,6 +10,7 @@ import Button from '@mui/material/Button';
 import App from './App';
 import Header from './components/Header';
 import Footer from './components/Footer';
+import SearchBar from './components/searchBar';
 
 const Greeting = ({ user }) => {
     if (user) {
@@ -57,7 +58,7 @@ export default function Home() {
                     <div>
                         <Button
                             href="/scoring/guest-score-home"
-                            variant="contained"
+                            variant="outlined"
                         >
                             <p className={styles.description}>
                                 Continue as Guest
@@ -66,13 +67,16 @@ export default function Home() {
                     </div>
                 ) : (
                     <div>
-                        <Button href="/scoring/score-home" variant="contained">
+                        <Button href="/scoring/score-home" variant="outlined">
                             <p className={styles.description}>
                                 Calculate my Score
                             </p>
                         </Button>
                     </div>
                 )}
+                <br />
+                <h2 className={styles.description}> Search for a user</h2>
+                <SearchBar />
             </main>
 
             <Footer />

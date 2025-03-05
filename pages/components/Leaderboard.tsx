@@ -1,38 +1,32 @@
 import React from 'react';
 import Link from 'next/link';
+import styles from '../../styles/Page.module.css';
 
 const Leaderboard = ({ cat, data }) => {
     return (
-        <div style={{ width: '600px', margin: '0 auto', textAlign: 'center' }}>
-            <h2>{cat}</h2>
-            <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+        <div className={styles.leaderboard}>
+            <h2 className={styles.heading}>{cat}</h2>
+            <table className={styles.table}>
                 <thead>
                     <tr>
-                        <th style={{ borderBottom: '1px solid black' }}>
-                            Rank
-                        </th>
-                        <th style={{ borderBottom: '1px solid black' }}>
-                            Username
-                        </th>
-                        <th style={{ borderBottom: '1px solid black' }}>
-                            Score
-                        </th>
+                        <th className={styles.tableHeader}>Rank</th>
+                        <th className={styles.tableHeader}>Username</th>
+                        <th className={styles.tableHeader}>Score</th>
                     </tr>
                 </thead>
                 <tbody>
                     {data.map(([score, username], index) => (
-                        <tr key={index}>
-                            <td>{index + 1}</td>
-                            <td>
-                                {
-                                    <div>
-                                        <Link href={'/profiles/' + username}>
-                                            {username}
-                                        </Link>
-                                    </div>
-                                }
+                        <tr key={index} className={styles.tableRow}>
+                            <td className={styles.tableCell}>{index + 1}</td>
+                            <td className={styles.tableCell}>
+                                <Link
+                                    href={'/profiles/' + username}
+                                    className={styles.link}
+                                >
+                                    {username}
+                                </Link>
                             </td>
-                            <td>{score}</td>
+                            <td className={styles.tableCell}>{score}</td>
                         </tr>
                     ))}
                 </tbody>
