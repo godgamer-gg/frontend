@@ -3,7 +3,7 @@ import styles from '../styles/Page.module.css';
 import Link from 'next/link';
 import Header from './components/Header';
 import Footer from './components/Footer';
-import SearchBar from './components/searchBar';
+import SearchBar from './components/SearchBar';
 import { useState, useEffect } from 'react';
 
 export default function SearchPage() {

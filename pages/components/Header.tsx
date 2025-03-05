@@ -11,7 +11,7 @@ import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import AccountMenu from './AccountMenu';
 
-import SearchBar from './searchBar';
+// import SearchBar from './searchBar';
 
 export default function Header(props) {
     return (

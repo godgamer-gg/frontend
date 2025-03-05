@@ -3,39 +3,52 @@ import styles from '../styles/Home.module.css';
 import Link from 'next/link';
 import React from 'react';
 import { useEffect, useState } from 'react';
-import ReactDOM from 'react-dom';
-import { BrowserRouter } from 'react-router-dom';
 import Button from '@mui/material/Button';
 
-import App from './App';
 import Header from './components/Header';
 import Footer from './components/Footer';
-import SearchBar from './components/searchBar';
+import SearchBar from './components/SearchBar';
 
-const Greeting = ({ user }) => {
-    if (user) {
+interface User {
+    username: string;
+    email?: string;
+    steam?: string;
+    discord?: string;
+    bio?: string;
+}
+
+interface GreetingProps {
+    user: User | '';
+}
+
+const Greeting: React.FC<GreetingProps> = ({ user }) => {
+    if (user && typeof user === 'object') {
         return <h1 className={styles.title}> Welcome! {user.username} </h1>;
     } else {
         return (
             <h1 className={styles.title}>
-                {' '}
                 Welcome! Please sign up or continue as guest
             </h1>
         );
     }
 };
 
-export default function Home() {
-    const [user, setUser] = useState('');
+const Home: React.FC = () => {
+    const [user, setUser] = useState<User | ''>('');
 
     useEffect(() => {
-        const fetchSession = async () => {
-            const response = await fetch('/api/session');
-            if (response.ok) {
-                const data = await response.json();
-                setUser(data.user);
-            } else {
-                console.log('User is not logged in');
+        const fetchSession = async (): Promise<void> => {
+            try {
+                const response = await fetch('/api/session');
+                if (response.ok) {
+                    const data = await response.json();
+                    setUser(data.user);
+                } else {
+                    console.log('User is not logged in');
+                    setUser('');
+                }
+            } catch (error) {
+                console.error('Error fetching session:', error);
                 setUser('');
             }
         };
@@ -52,13 +65,22 @@ export default function Home() {
 
             <Header user={user} />
 
-            <main>
+            <main className={styles.main}>
                 <Greeting user={user} />
                 {user === '' ? (
                     <div>
                         <Button
                             href="/scoring/guest-score-home"
                             variant="outlined"
+                            sx={{
+                                color: '#ffffff',
+                                borderColor: 'rgba(255, 255, 255, 0.3)',
+                                '&:hover': {
+                                    borderColor: 'rgba(255, 255, 255, 0.6)',
+                                    backgroundColor:
+                                        'rgba(255, 255, 255, 0.05)',
+                                },
+                            }}
                         >
                             <p className={styles.description}>
                                 Continue as Guest
@@ -67,7 +89,19 @@ export default function Home() {
                     </div>
                 ) : (
                     <div>
-                        <Button href="/scoring/score-home" variant="outlined">
+                        <Button
+                            href="/scoring/score-home"
+                            variant="outlined"
+                            sx={{
+                                color: '#ffffff',
+                                borderColor: 'rgba(255, 255, 255, 0.3)',
+                                '&:hover': {
+                                    borderColor: 'rgba(255, 255, 255, 0.6)',
+                                    backgroundColor:
+                                        'rgba(255, 255, 255, 0.05)',
+                                },
+                            }}
+                        >
                             <p className={styles.description}>
                                 Calculate my Score
                             </p>
@@ -75,7 +109,7 @@ export default function Home() {
                     </div>
                 )}
                 <br />
-                <h2 className={styles.description}> Search for a user</h2>
+                <h2 className={styles.description}>Search for a user</h2>
                 <SearchBar />
             </main>
 
@@ -93,7 +127,7 @@ export default function Home() {
                 footer {
                     width: 100%;
                     height: 100px;
-                    border-top: 1px solid #eaeaea;
+                    border-top: 1px solid rgba(255, 255, 255, 0.1);
                     display: flex;
                     justify-content: center;
                     align-items: center;
@@ -109,7 +143,7 @@ export default function Home() {
                     color: inherit;
                 }
                 code {
-                    background: #fafafa;
+                    background: rgba(255, 255, 255, 0.05);
                     border-radius: 5px;
                     padding: 0.75rem;
                     font-size: 1.1rem;
@@ -127,6 +161,8 @@ export default function Home() {
                     font-family: -apple-system, BlinkMacSystemFont, Segoe UI,
                         Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans,
                         Helvetica Neue, sans-serif;
+                    background-color: #121212;
+                    color: #ffffff;
                 }
                 * {
                     box-sizing: border-box;
@@ -134,4 +170,6 @@ export default function Home() {
             `}</style>
         </div>
     );
-}
+};
+
+export default Home;
