@@ -117,7 +117,7 @@ export default function AccountMenu({ user = '' }) {
                 transformOrigin={{ horizontal: 'right', vertical: 'top' }}
                 anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
             >
-                <Link href="/update-profile" passHref legacyBehavior>
+                <Link href="/profiles/my-profile" passHref legacyBehavior>
                     <MenuItem>
                         <Avatar /> Profile
                     </MenuItem>

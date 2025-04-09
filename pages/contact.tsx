@@ -7,6 +7,11 @@ import { useState, useEffect } from 'react';
 
 export default function Contact() {
     const [user, setUser] = useState('');
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
+    const [message, setMessage] = useState('');
+    const [submitStatus, setSubmitStatus] = useState('');
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     useEffect(() => {
         const fetchSession = async () => {
@@ -23,6 +28,40 @@ export default function Contact() {
         fetchSession();
     }, []);
 
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setIsSubmitting(true);
+        setSubmitStatus('');
+
+        try {
+            const response = await fetch('/api/contact', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ name, email, message }),
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                setSubmitStatus('success');
+                // Clear the form
+                setName('');
+                setEmail('');
+                setMessage('');
+            } else {
+                setSubmitStatus('error');
+                console.error('Error submitting form:', data.message);
+            }
+        } catch (error) {
+            setSubmitStatus('error');
+            console.error('Error submitting form:', error);
+        } finally {
+            setIsSubmitting(false);
+        }
+    };
+
     return (
         <div>
             <Head>
@@ -35,50 +74,88 @@ export default function Contact() {
                 <h1 className={styles.title}>Contact Us</h1>
 
                 <section className={styles.section}>
-                    <form className={styles.form}>
-                        <div className={styles.formGroup}>
-                            <label htmlFor="name" className={styles.text}>
-                                Name:
-                            </label>
-                            <input
-                                type="text"
-                                id="name"
-                                name="name"
-                                className={styles.input}
-                                required
-                            />
+                    {submitStatus === 'success' ? (
+                        <div className={styles.success}>
+                            <h2 className={styles.subheading}>Thank You!</h2>
+                            <p className={styles.text}>
+                                Your message has been sent successfully. We'll
+                                get back to you as soon as possible.
+                            </p>
+                            <p className={styles.text}>
+                                If you don't receive a response within 48 hours,
+                                please check your spam folder or try contacting
+                                us through our social media channels.
+                            </p>
+                            <button
+                                className={styles.button}
+                                onClick={() => setSubmitStatus('')}
+                            >
+                                Send Another Message
+                            </button>
                         </div>
+                    ) : (
+                        <form className={styles.form} onSubmit={handleSubmit}>
+                            <div className={styles.formGroup}>
+                                <label htmlFor="name" className={styles.text}>
+                                    Name:
+                                </label>
+                                <input
+                                    type="text"
+                                    id="name"
+                                    value={name}
+                                    onChange={(e) => setName(e.target.value)}
+                                    className={styles.input}
+                                    required
+                                />
+                            </div>
 
-                        <div className={styles.formGroup}>
-                            <label htmlFor="email" className={styles.text}>
-                                Email:
-                            </label>
-                            <input
-                                type="email"
-                                id="email"
-                                name="email"
-                                className={styles.input}
-                                required
-                            />
-                        </div>
+                            <div className={styles.formGroup}>
+                                <label htmlFor="email" className={styles.text}>
+                                    Email:
+                                </label>
+                                <input
+                                    type="email"
+                                    id="email"
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                    className={styles.input}
+                                    required
+                                />
+                            </div>
 
-                        <div className={styles.formGroup}>
-                            <label htmlFor="message" className={styles.text}>
-                                Message:
-                            </label>
-                            <textarea
-                                id="message"
-                                name="message"
-                                className={styles.input}
-                                rows={5}
-                                required
-                            />
-                        </div>
+                            <div className={styles.formGroup}>
+                                <label
+                                    htmlFor="message"
+                                    className={styles.text}
+                                >
+                                    Message:
+                                </label>
+                                <textarea
+                                    id="message"
+                                    value={message}
+                                    onChange={(e) => setMessage(e.target.value)}
+                                    className={styles.input}
+                                    rows={5}
+                                    required
+                                />
+                            </div>
 
-                        <button type="submit" className={styles.button}>
-                            Send Message
-                        </button>
-                    </form>
+                            {submitStatus === 'error' && (
+                                <p className={styles.error}>
+                                    There was an error sending your message.
+                                    Please try again later.
+                                </p>
+                            )}
+
+                            <button
+                                type="submit"
+                                className={styles.button}
+                                disabled={isSubmitting}
+                            >
+                                {isSubmitting ? 'Sending...' : 'Submit'}
+                            </button>
+                        </form>
+                    )}
                 </section>
             </main>
         </div>

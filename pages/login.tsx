@@ -14,6 +14,7 @@ const Login: React.FC = () => {
     const [userError, setUserError] = useState<string>('');
     const [passwordError, setPasswordError] = useState<string>('');
     const [responseError, setResponseError] = useState<string>('');
+    const [showPassword, setShowPassword] = useState<boolean>(false);
 
     const router = useRouter();
 
@@ -24,6 +25,10 @@ const Login: React.FC = () => {
 
     const handleLoginSuccess = (): void => {
         router.push('/');
+    };
+
+    const togglePasswordVisibility = (): void => {
+        setShowPassword(!showPassword);
     };
 
     const onButtonClick = (): void => {
@@ -85,13 +90,29 @@ const Login: React.FC = () => {
                         </div>
 
                         <div className={styles.formGroup}>
-                            <input
-                                type="password"
-                                value={password}
-                                placeholder="Enter your password here"
-                                onChange={(ev) => setPassword(ev.target.value)}
-                                className={styles.input}
-                            />
+                            <div className={styles.passwordContainer}>
+                                <input
+                                    type={showPassword ? 'text' : 'password'}
+                                    value={password}
+                                    placeholder="Enter your password here"
+                                    onChange={(ev) =>
+                                        setPassword(ev.target.value)
+                                    }
+                                    className={styles.input}
+                                />
+                                <button
+                                    type="button"
+                                    onClick={togglePasswordVisibility}
+                                    className={styles.passwordToggle}
+                                    aria-label={
+                                        showPassword
+                                            ? 'Hide password'
+                                            : 'Show password'
+                                    }
+                                >
+                                    {showPassword ? 'Hide' : 'Show'}
+                                </button>
+                            </div>
                             {passwordError && (
                                 <label className={styles.error}>
                                     {passwordError}
