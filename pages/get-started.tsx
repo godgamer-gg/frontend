@@ -55,7 +55,7 @@ export default function GetStarted() {
                 </div>
             ) : (
                 <div>
-                    <Button href="/scoring/score-home" varient="contained">
+                    <Button href="/scoring/score-home" variant="contained">
                         Continue
                     </Button>
                 </div>

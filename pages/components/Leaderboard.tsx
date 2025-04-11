@@ -15,7 +15,7 @@ const Leaderboard = ({ cat, data }) => {
                     </tr>
                 </thead>
                 <tbody>
-                    {data.map(([score, username], index) => (
+                    {data?.map(([score, username], index) => (
                         <tr key={index} className={styles.tableRow}>
                             <td className={styles.tableCell}>{index + 1}</td>
                             <td className={styles.tableCell}>
